@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Teamwave Django Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="topnav">
+        <a>Teamwave Django Project</a>
+    </div>
+    {% block content %}
+    <div class="div1">
+        <form method="get">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title..">
+
+            <label for="user">User</label>
+            <input type="text" id="user" name="user" placeholder="User..">
+
+            
+
+            <label for="tagged">Tagged</label>
+            <input type="text" id="tagged" name="tagged" placeholder="Tags..">
+
+            <label for="nottagged">NotTagged</label>
+            <input type="text" id="nottagged" name="nottagged" placeholder="Not Tags..">
+            <label for="order">Order</label>
+            <select id="order" name="order">
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </select>
+            <label for="sort">Sort</label>
+            <select id="sort" name="sort">
+              <option value="activity">Activity</option>
+              <option value="votes">Votes</option>
+              <option value="creation">Creation</option>
+              <option value="relevance">Relevance</option>
+            </select>
+
+
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    {% if stklnk %}
+    <div class="div1">
+        <table id="customers">
+            <thead id="customers">
+                <tr>
+                    <th>Title</th>
+                    <th>URL</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in stklnk %}
+                <tr>
+                    <td>{{ t.0 }}</td>
+                    <td>{{ t.1 }}</td>
+                    <td>{{ t.2 }}</td>
+                </tr>
+                {% empty %} {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %} {% endblock %}
+    <div class="demo1">
+        <div class="pagination">
+            {% if stklnk.has_previous %}
+            <a href="?page={{ stklnk.previous_page_number }}">previous</a> {% else %}
+            <a class="disabled">previous</a> {% endif %} {% for i in stklnk.paginator.page_range %} {% if stklnk.number == i %}
+            <a class="active">  {{ stklnk.number }} </a> {% else %}
+            <a href="?page={{ i }}">{{ i }}</a> {% endif %} {% endfor %} {% if stklnk.has_next %}
+            <a href="?page={{ stklnk.next_page_number }}">next</a> {% else %}
+            <a class="disabled">next</a> {% endif %}
+        </div>
+    </div>
+
+</body>
+
+</html>
